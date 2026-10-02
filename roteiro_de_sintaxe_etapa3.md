@@ -4,7 +4,55 @@ Este roteiro serve como uma "cola" (cheat sheet) rápida com as principais sinta
 
 ---
 
-## 1. 📦 Sintaxes do Sequelize (Models)
+## 1. 🔌 Sintaxes de Conexão com Banco de Dados (`database.js`)
+
+Como configurar o arquivo que conecta o Node.js ao banco de dados usando o Sequelize.
+
+### Com SQLite (Mais simples, não exige instalação de SGBD externo)
+```javascript
+const { Sequelize } = require('sequelize');
+
+// O SQLite salva o banco num arquivo local na pasta do projeto
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: './database.sqlite' // Caminho onde o arquivo será criado
+});
+
+module.exports = sequelize;
+```
+
+### Com MySQL
+```javascript
+const { Sequelize } = require('sequelize');
+
+// Passando: 'nome_do_banco', 'usuario', 'senha'
+const sequelize = new Sequelize('webfarm_db', 'root', 'sua_senha', {
+  host: 'localhost',
+  dialect: 'mysql' 
+});
+
+module.exports = sequelize;
+```
+
+### Com PostgreSQL
+```javascript
+const { Sequelize } = require('sequelize');
+
+// Usando os parâmetros separados
+const sequelize = new Sequelize('webfarm_db', 'postgres', 'sua_senha', {
+  host: 'localhost',
+  dialect: 'postgres'
+});
+
+// OU usando uma URL de conexão (String de conexão)
+// const sequelize = new Sequelize('postgres://usuario:senha@localhost:5432/webfarm_db');
+
+module.exports = sequelize;
+```
+
+---
+
+## 2. 📦 Sintaxes do Sequelize (Models)
 
 Como criar os campos (colunas) das suas tabelas corretamente.
 
@@ -51,7 +99,7 @@ Produto.belongsToMany(Fornecedor, { through: 'FornecedorProduto' });
 
 ---
 
-## 2. 🗄️ Sintaxes de Repositório (Consultas no Banco)
+## 3. 🗄️ Sintaxes de Repositório (Consultas no Banco)
 
 Como buscar, criar, editar e apagar dados usando os métodos prontos do Sequelize.
 
@@ -87,7 +135,7 @@ await Animal.destroy({
 
 ---
 
-## 3. 🧠 Sintaxes de Service (Regras de Negócio e Validações)
+## 4. 🧠 Sintaxes de Service (Regras de Negócio e Validações)
 
 Como tratar erros e validar coisas. Geralmente dentro do método do seu Service.
 
@@ -113,7 +161,7 @@ async registrarVenda(dadosDaVenda) {
 
 ---
 
-## 4. 🌐 Sintaxes de Controller (Requisição e Resposta)
+## 5. 🌐 Sintaxes de Controller (Requisição e Resposta)
 
 Lidando com os dados que vêm da internet (`req`) e mandando a resposta (`res`).
 
@@ -152,7 +200,7 @@ return res.status(500).json({ erro: 'Erro interno no banco de dados' });
 
 ---
 
-## 5. 🛣️ Sintaxes de Rotas (Express)
+## 6. 🛣️ Sintaxes de Rotas (Express)
 
 Como conectar os URLs da sua API com o Controller.
 
