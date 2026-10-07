@@ -12,7 +12,12 @@ import {
   LogOut
 } from 'lucide-react';
 
-export default function Sidebar({ activeModule = 'dashboard', onSelectModule, onLogout }) {
+export default function Sidebar({ activeModule = 'dashboard', onSelectModule, onLogout, user }) {
+  const initials = user?.nome
+    ? user.nome.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase()
+    : 'LR';
+  const userName = user?.nome || 'Lucas Ramos';
+  const userRole = user?.perfil || 'Administrador';
   const menuItems = [
     {
       id: 'dashboard',
@@ -75,7 +80,7 @@ export default function Sidebar({ activeModule = 'dashboard', onSelectModule, on
               </span>
             </div>
             <span className="text-[10px] text-emerald-200/60 font-medium tracking-wide mt-1">
-              Gestão Agropecuária Inteligente
+              Gestão Agropecuária e Serviços
             </span>
           </div>
         </div>
@@ -119,27 +124,24 @@ export default function Sidebar({ activeModule = 'dashboard', onSelectModule, on
                 key={item.id}
                 type="button"
                 onClick={() => onSelectModule && onSelectModule(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs tracking-wide transition-all text-left cursor-pointer ${
-                  isActive
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs tracking-wide transition-all text-left cursor-pointer ${isActive
                     ? 'bg-gradient-to-r from-[#237a32]/35 to-transparent text-white border-l-4 border-[#237a32] font-semibold shadow-sm'
                     : 'text-emerald-100/75 hover:text-white hover:bg-white/[0.06] font-medium group'
-                }`}
+                  }`}
               >
                 <Icon
-                  className={`w-4 h-4 transition-colors ${
-                    isActive
+                  className={`w-4 h-4 transition-colors ${isActive
                       ? 'text-emerald-300'
                       : 'text-emerald-300/60 group-hover:text-emerald-300'
-                  }`}
+                    }`}
                 />
                 <span className="flex-1">{item.label}</span>
                 {item.badge && (
                   <span
-                    className={`text-[10px] font-semibold py-0.5 px-1.5 rounded-md ${
-                      isActive
+                    className={`text-[10px] font-semibold py-0.5 px-1.5 rounded-md ${isActive
                         ? 'bg-[#237a32] text-white'
                         : 'bg-white/10 text-emerald-200'
-                    }`}
+                      }`}
                   >
                     {item.badge}
                   </span>
@@ -166,17 +168,17 @@ export default function Sidebar({ activeModule = 'dashboard', onSelectModule, on
             <div className="relative shrink-0">
               <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#237a32] to-emerald-400 p-[1.5px]">
                 <div className="w-full h-full rounded-full bg-[#185824] flex items-center justify-center text-white text-xs font-bold">
-                  LR
+                  {initials}
                 </div>
               </div>
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#0b2411] rounded-full" />
             </div>
             <div className="min-w-0">
               <p className="text-xs font-semibold text-white leading-tight truncate">
-                Lucas Ramos
+                {userName}
               </p>
               <span className="inline-block mt-0.5 px-1.5 py-0.2 bg-emerald-400/20 text-emerald-300 text-[9px] font-medium rounded border border-emerald-400/30">
-                Administrador
+                {userRole}
               </span>
             </div>
           </div>

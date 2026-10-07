@@ -7,7 +7,7 @@ import ModulesGrid from '../components/ModulesGrid';
 import RecentActivityTable from '../components/RecentActivityTable';
 import Footer from '../components/Footer';
 
-export default function Dashboard({ onNavigate, onLogout }) {
+export default function Dashboard({ onNavigate, onLogout, user }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSelectModule = (moduleId) => {
@@ -22,12 +22,14 @@ export default function Dashboard({ onNavigate, onLogout }) {
         activeModule="dashboard"
         onSelectModule={handleSelectModule}
         onLogout={onLogout}
+        user={user}
       />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <Navbar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
+          user={user}
         />
 
         <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-8">

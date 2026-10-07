@@ -40,9 +40,16 @@ export default function Registre({ onNavigateLogin, onRegisterSuccess }) {
       return;
     }
 
+    const userPayload = {
+      nome: fullName,
+      email: email,
+      perfil: 'Administrador',
+      fazenda: farmName
+    };
+
     alert(`Cadastro realizado com sucesso!\nBem-vindo(a) à WebFarm 2.0, ${fullName}!`);
     if (onRegisterSuccess) {
-      onRegisterSuccess();
+      onRegisterSuccess(userPayload);
     } else if (onNavigateLogin) {
       onNavigateLogin();
     }
@@ -117,22 +124,20 @@ export default function Registre({ onNavigateLogin, onRegisterSuccess }) {
               <button
                 type="button"
                 onClick={() => setPersonType('fisica')}
-                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                  personType === 'fisica'
+                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${personType === 'fisica'
                     ? 'bg-white text-[#237a32] shadow-xs'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 Pessoa Física (CPF)
               </button>
               <button
                 type="button"
                 onClick={() => setPersonType('juridica')}
-                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                  personType === 'juridica'
+                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${personType === 'juridica'
                     ? 'bg-white text-[#237a32] shadow-xs'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 Pessoa Jurídica (CNPJ)
               </button>
@@ -153,7 +158,7 @@ export default function Registre({ onNavigateLogin, onRegisterSuccess }) {
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder={personType === 'fisica' ? 'ex: Lucas Ramos Silva' : 'ex: Agropecuária Ramos Ltda'}
+                    placeholder={personType === 'fisica' ? 'ex: Carlos Augusto Ramos' : 'ex: Agropecuária Ramos Ltda'}
                     className="w-full pl-10 pr-4 py-2.5 bg-[#f8f9fa] hover:bg-white text-gray-800 text-sm rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-[#237a32] focus:ring-2 focus:ring-[#237a32]/20 transition-all placeholder:text-gray-400"
                   />
                 </div>

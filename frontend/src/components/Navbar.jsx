@@ -1,12 +1,14 @@
 import { Search, Bell, HelpCircle } from 'lucide-react';
 
-export default function Navbar({ searchTerm = '', onSearchChange }) {
+export default function Navbar({ searchTerm = '', onSearchChange, user }) {
+  const firstName = user?.nome ? user.nome.split(' ')[0] : 'Lucas';
+
   return (
     <header className="h-16 px-6 lg:px-8 bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 flex items-center justify-between gap-4">
       <div className="flex items-center gap-3 min-w-0">
         <div>
           <h1 className="text-sm font-semibold text-slate-800 tracking-tight flex items-center gap-2">
-            <span>Olá, Lucas</span>
+            <span>Olá, {firstName}</span>
             <span className="text-slate-300">•</span>
             <span className="text-slate-500 font-normal text-xs">
               Quinta-feira, safra 2025/2026

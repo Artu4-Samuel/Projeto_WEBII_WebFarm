@@ -22,10 +22,19 @@ export default function Login({ onLogin, onNavigateRegister }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const cleanName = identifier.includes('@')
+      ? identifier.split('@')[0].replace(/[._-]/g, ' ')
+      : 'Lucas Ramos';
+    const formattedName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+
+    const userPayload = {
+      nome: formattedName,
+      email: identifier.includes('@') ? identifier : `${identifier}@fazenda.com.br`,
+      perfil: 'Administrador'
+    };
+
     if (onLogin) {
-      onLogin();
-    } else {
-      alert(`Login efetuado com sucesso!\nIdentificador: ${identifier}`);
+      onLogin(userPayload);
     }
   };
 
@@ -60,7 +69,7 @@ export default function Login({ onLogin, onNavigateRegister }) {
               </span>
             </div>
             <span className="text-[11px] text-emerald-100/70 font-medium tracking-wide">
-              Agro Management Platform
+              Agro & Services Management
             </span>
           </div>
         </div>

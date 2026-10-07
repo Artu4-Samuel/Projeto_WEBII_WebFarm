@@ -16,7 +16,7 @@ import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-export default function Animais({ onNavigate, onLogout }) {
+export default function Animais({ onNavigate, onLogout, user }) {
   const [animais, setAnimais] = useState([
     {
       id: 1,
@@ -152,10 +152,11 @@ export default function Animais({ onNavigate, onLogout }) {
         activeModule="animais"
         onSelectModule={onNavigate}
         onLogout={onLogout}
+        user={user}
       />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} user={user} />
 
         <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6 pb-24">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

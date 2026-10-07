@@ -1,51 +1,119 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Registre from './pages/Registre';
 import Animais from './pages/Animais';
 import Funcionarios from './pages/Funcionarios';
 
-function App() {
-  const [currentView, setCurrentView] = useState('dashboard');
+export default function App() {
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('webfarm_auth_session');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const getRouteFromHash = () => {
+    const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
+    if (['dashboard', 'animais', 'equipe', 'login', 'registro'].includes(hash)) {
+      return hash;
+    }
+    return currentUser ? 'dashboard' : 'login';
+  };
+
+  const [currentRoute, setCurrentRoute] = useState(getRouteFromHash);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const route = getRouteFromHash();
+      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'equipe')) {
+        window.location.hash = '#/login';
+        setCurrentRoute('login');
+        return;
+      }
+
+      if (currentUser && (route === 'login' || route === 'registro')) {
+        window.location.hash = '#/dashboard';
+        setCurrentRoute('dashboard');
+        return;
+      }
+
+      setCurrentRoute(route);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [currentUser]);
+
+  const navigateTo = (route) => {
+    window.location.hash = `#/${route}`;
+    setCurrentRoute(route);
+  };
+
+  const handleLogin = (userPayload) => {
+    const user = userPayload || {
+      nome: 'Lucas Ramos',
+      email: 'produtor@fazenda.com.br',
+      perfil: 'Administrador'
+    };
+    setCurrentUser(user);
+    try {
+      localStorage.setItem('webfarm_auth_session', JSON.stringify(user));
+    } catch {}
+    navigateTo('dashboard');
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    try {
+      localStorage.removeItem('webfarm_auth_session');
+    } catch {}
+    navigateTo('login');
+  };
 
   return (
-    <div key={currentView} className="animate-page-enter">
-      {currentView === 'dashboard' && (
+    <div key={currentRoute} className="animate-page-enter">
+      {currentRoute === 'dashboard' && currentUser && (
         <Dashboard
-          onNavigate={(view) => setCurrentView(view)}
-          onLogout={() => setCurrentView('login')}
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
         />
       )}
 
-      {currentView === 'animais' && (
+      {currentRoute === 'animais' && currentUser && (
         <Animais
-          onNavigate={(view) => setCurrentView(view)}
-          onLogout={() => setCurrentView('login')}
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
         />
       )}
 
-      {currentView === 'equipe' && (
+      {currentRoute === 'equipe' && currentUser && (
         <Funcionarios
-          onNavigate={(view) => setCurrentView(view)}
-          onLogout={() => setCurrentView('login')}
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
         />
       )}
 
-      {currentView === 'login' && (
+      {currentRoute === 'login' && (
         <Login
-          onLogin={() => setCurrentView('dashboard')}
-          onNavigateRegister={() => setCurrentView('register')}
+          onLogin={handleLogin}
+          onNavigateRegister={() => navigateTo('registro')}
         />
       )}
 
-      {currentView === 'register' && (
+      {currentRoute === 'registro' && (
         <Registre
-          onNavigateLogin={() => setCurrentView('login')}
-          onRegisterSuccess={() => setCurrentView('dashboard')}
+          onNavigateLogin={() => navigateTo('login')}
+          onRegisterSuccess={handleLogin}
         />
       )}
     </div>
   );
 }
-
-export default App;
