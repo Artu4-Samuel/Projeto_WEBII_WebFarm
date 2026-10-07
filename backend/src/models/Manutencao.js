@@ -19,6 +19,14 @@ const Manutencao = sequelize.define('Manutencao', {
   },
   tipo: {
     type: DataTypes.STRING
+  },
+  id_equipamento: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  id_veiculo: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   }
 });
 
