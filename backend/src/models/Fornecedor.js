@@ -21,6 +21,10 @@ const Fornecedor = sequelize.define('Fornecedor', {
   },
   email: {
     type: DataTypes.STRING
+  },
+  id_fazenda: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 });
 
