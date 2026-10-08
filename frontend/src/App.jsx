@@ -7,6 +7,7 @@ import Funcionarios from './pages/Funcionarios';
 import Financeiro from './pages/Financeiro';
 import Maquinas from './pages/Maquinas';
 import Safra from './pages/Safra';
+import Relatorios from './pages/Relatorios';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -19,7 +20,7 @@ export default function App() {
   });
 
   const getRouteFromUrl = () => {
-    const validRoutes = ['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'safra', 'login', 'registro'];
+    const validRoutes = ['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'safra', 'relatorios', 'login', 'registro'];
 
     const hash = window.location.hash.replace(/^#\/?/, '').trim();
     if (validRoutes.includes(hash)) {
@@ -43,7 +44,7 @@ export default function App() {
     const handleUrlChange = () => {
       const route = getRouteFromUrl();
 
-      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'maquinas' || route === 'equipe' || route === 'financeiro' || route === 'safra')) {
+      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'maquinas' || route === 'equipe' || route === 'financeiro' || route === 'safra' || route === 'relatorios')) {
         window.history.replaceState(null, '', '/login');
         setCurrentRoute('login');
         return;
@@ -142,6 +143,14 @@ export default function App() {
 
       {currentRoute === 'safra' && currentUser && (
         <Safra
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
+        />
+      )}
+
+      {currentRoute === 'relatorios' && currentUser && (
+        <Relatorios
           onNavigate={(target) => navigateTo(target)}
           onLogout={handleLogout}
           user={currentUser}
