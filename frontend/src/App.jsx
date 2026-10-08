@@ -6,6 +6,7 @@ import Animais from './pages/Animais';
 import Funcionarios from './pages/Funcionarios';
 import Financeiro from './pages/Financeiro';
 import Maquinas from './pages/Maquinas';
+import Safra from './pages/Safra';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -18,7 +19,7 @@ export default function App() {
   });
 
   const getRouteFromUrl = () => {
-    const validRoutes = ['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'login', 'registro'];
+    const validRoutes = ['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'safra', 'login', 'registro'];
 
     const hash = window.location.hash.replace(/^#\/?/, '').trim();
     if (validRoutes.includes(hash)) {
@@ -42,7 +43,7 @@ export default function App() {
     const handleUrlChange = () => {
       const route = getRouteFromUrl();
 
-      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'maquinas' || route === 'equipe' || route === 'financeiro')) {
+      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'maquinas' || route === 'equipe' || route === 'financeiro' || route === 'safra')) {
         window.history.replaceState(null, '', '/login');
         setCurrentRoute('login');
         return;
@@ -133,6 +134,14 @@ export default function App() {
 
       {currentRoute === 'financeiro' && currentUser && (
         <Financeiro
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
+        />
+      )}
+
+      {currentRoute === 'safra' && currentUser && (
+        <Safra
           onNavigate={(target) => navigateTo(target)}
           onLogout={handleLogout}
           user={currentUser}
