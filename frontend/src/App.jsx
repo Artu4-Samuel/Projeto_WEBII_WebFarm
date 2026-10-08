@@ -17,42 +17,62 @@ export default function App() {
     }
   });
 
-  const getRouteFromHash = () => {
-    const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
-    if (['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'login', 'registro'].includes(hash)) {
+  const getRouteFromUrl = () => {
+    const validRoutes = ['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'login', 'registro'];
+
+    const hash = window.location.hash.replace(/^#\/?/, '').trim();
+    if (validRoutes.includes(hash)) {
       return hash;
     }
+
+    const rawPath = window.location.pathname.startsWith('/')
+      ? window.location.pathname.slice(1)
+      : window.location.pathname;
+    const path = rawPath.split('/')[0].trim();
+    if (validRoutes.includes(path)) {
+      return path;
+    }
+
     return currentUser ? 'dashboard' : 'login';
   };
 
-  const [currentRoute, setCurrentRoute] = useState(getRouteFromHash);
+  const [currentRoute, setCurrentRoute] = useState(getRouteFromUrl);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const route = getRouteFromHash();
+    const handleUrlChange = () => {
+      const route = getRouteFromUrl();
+
       if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'maquinas' || route === 'equipe' || route === 'financeiro')) {
-        window.location.hash = '#/login';
+        window.history.replaceState(null, '', '/login');
         setCurrentRoute('login');
         return;
       }
 
       if (currentUser && (route === 'login' || route === 'registro')) {
-        window.location.hash = '#/dashboard';
+        window.history.replaceState(null, '', '/dashboard');
         setCurrentRoute('dashboard');
         return;
+      }
+
+      if (window.location.hash || window.location.pathname !== `/${route}`) {
+        window.history.replaceState(null, '', `/${route}`);
       }
 
       setCurrentRoute(route);
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange();
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    handleUrlChange();
 
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
   }, [currentUser]);
 
   const navigateTo = (route) => {
-    window.location.hash = `#/${route}`;
+    window.history.pushState(null, '', `/${route}`);
     setCurrentRoute(route);
   };
 

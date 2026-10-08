@@ -100,7 +100,8 @@ export default function ModulesGrid({ onNavigateModule }) {
             return (
               <div
                 key={item.id}
-                className="bg-gradient-to-br from-[#f7fbf8] to-white rounded-2xl p-6 border-2 border-[#237a32]/40 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group relative overflow-hidden"
+                onClick={() => onNavigateModule && onNavigateModule(item.id)}
+                className="bg-gradient-to-br from-[#f7fbf8] to-white rounded-2xl p-6 border-2 border-[#237a32]/40 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group relative overflow-hidden cursor-pointer"
               >
                 <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-[#237a32]/5 rounded-full pointer-events-none" />
                 <div>
@@ -125,14 +126,10 @@ export default function ModulesGrid({ onNavigateModule }) {
 
                 <div className="pt-5 mt-4 border-t border-emerald-950/10 flex items-center justify-between">
                   <span className="text-xs font-semibold text-[#215f2d]">{item.footerInfo}</span>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateModule && onNavigateModule(item.id)}
-                    className="text-xs font-bold text-[#237a32] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1 cursor-pointer"
-                  >
+                  <span className="text-xs font-bold text-[#237a32] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
                     <span>{item.actionText}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  </span>
                 </div>
               </div>
             );
@@ -141,7 +138,8 @@ export default function ModulesGrid({ onNavigateModule }) {
           return (
             <div
               key={item.id}
-              className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#237a32]/40 hover:shadow-md transition-all duration-200 flex flex-col justify-between group"
+              onClick={() => onNavigateModule && onNavigateModule(item.id)}
+              className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#237a32]/40 hover:shadow-md transition-all duration-200 flex flex-col justify-between group cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -166,14 +164,10 @@ export default function ModulesGrid({ onNavigateModule }) {
 
               <div className="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
                 <span className="text-xs font-semibold text-slate-500">{item.footerInfo}</span>
-                <button
-                  type="button"
-                  onClick={() => onNavigateModule && onNavigateModule(item.id)}
-                  className="text-xs font-bold text-[#237a32] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1 cursor-pointer"
-                >
+                <span className="text-xs font-bold text-[#237a32] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
                   <span>{item.actionText}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                </span>
               </div>
             </div>
           );
