@@ -125,22 +125,22 @@ export default function Sidebar({ activeModule = 'dashboard', onSelectModule, on
                 type="button"
                 onClick={() => onSelectModule && onSelectModule(item.id)}
                 className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs tracking-wide transition-all text-left cursor-pointer ${isActive
-                    ? 'bg-gradient-to-r from-[#237a32]/35 to-transparent text-white border-l-4 border-[#237a32] font-semibold shadow-sm'
-                    : 'text-emerald-100/75 hover:text-white hover:bg-white/[0.06] font-medium group'
+                  ? 'bg-gradient-to-r from-[#237a32]/35 to-transparent text-white border-l-4 border-[#237a32] font-semibold shadow-sm'
+                  : 'text-emerald-100/75 hover:text-white hover:bg-white/[0.06] font-medium group'
                   }`}
               >
                 <Icon
                   className={`w-4 h-4 transition-colors ${isActive
-                      ? 'text-emerald-300'
-                      : 'text-emerald-300/60 group-hover:text-emerald-300'
+                    ? 'text-emerald-300'
+                    : 'text-emerald-300/60 group-hover:text-emerald-300'
                     }`}
                 />
                 <span className="flex-1">{item.label}</span>
                 {item.badge && (
                   <span
                     className={`text-[10px] font-semibold py-0.5 px-1.5 rounded-md ${isActive
-                        ? 'bg-[#237a32] text-white'
-                        : 'bg-white/10 text-emerald-200'
+                      ? 'bg-[#237a32] text-white'
+                      : 'bg-white/10 text-emerald-200'
                       }`}
                   >
                     {item.badge}

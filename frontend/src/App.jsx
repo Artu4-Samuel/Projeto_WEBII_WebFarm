@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Registre from './pages/Registre';
 import Animais from './pages/Animais';
 import Funcionarios from './pages/Funcionarios';
+import Financeiro from './pages/Financeiro';
+import Maquinas from './pages/Maquinas';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -17,7 +19,7 @@ export default function App() {
 
   const getRouteFromHash = () => {
     const hash = window.location.hash.replace('#/', '').replace('#', '').trim();
-    if (['dashboard', 'animais', 'equipe', 'login', 'registro'].includes(hash)) {
+    if (['dashboard', 'animais', 'maquinas', 'equipe', 'financeiro', 'login', 'registro'].includes(hash)) {
       return hash;
     }
     return currentUser ? 'dashboard' : 'login';
@@ -28,7 +30,7 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const route = getRouteFromHash();
-      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'equipe')) {
+      if (!currentUser && (route === 'dashboard' || route === 'animais' || route === 'maquinas' || route === 'equipe' || route === 'financeiro')) {
         window.location.hash = '#/login';
         setCurrentRoute('login');
         return;
@@ -93,8 +95,24 @@ export default function App() {
         />
       )}
 
+      {currentRoute === 'maquinas' && currentUser && (
+        <Maquinas
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
+        />
+      )}
+
       {currentRoute === 'equipe' && currentUser && (
         <Funcionarios
+          onNavigate={(target) => navigateTo(target)}
+          onLogout={handleLogout}
+          user={currentUser}
+        />
+      )}
+
+      {currentRoute === 'financeiro' && currentUser && (
+        <Financeiro
           onNavigate={(target) => navigateTo(target)}
           onLogout={handleLogout}
           user={currentUser}
